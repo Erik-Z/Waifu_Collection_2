@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, Dimensions, SafeAreaView, ScrollView} fr
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
 const WaifuDetails = ({navigation, userData, route}) => {
-    console.log(route.params.waifu)
     return (
         <View>
             <Appbar style={styles.appbar}>

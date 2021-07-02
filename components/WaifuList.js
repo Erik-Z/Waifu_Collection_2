@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList } from 'react-native';
 import WaifuPreview from '../components/WaifuPreview';
 const WaifuList = (props) => {
     const renderWaifuCard = ({ item }) => {
-        return <WaifuPreview uri={item.image} name={item.name} 
+        return <WaifuPreview uri={item.image} name={item.name} series={item.series}
                     gotoDetails={() => {
                         props.navigation.navigate('Details', {waifu: item})
                     }}
