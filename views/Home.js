@@ -6,6 +6,13 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import HomeContent from './HomeContent';
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
+
+// TODO:
+// User Profiles: Show waifus uploaded by user
+// waifu search.
+// all waifus
+// followed waifus
+
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
 
