@@ -1,0 +1,139 @@
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard,
+    Image, Dimensions, SafeAreaView, ScrollView} from 'react-native';
+import { Appbar, TextInput, Button } from 'react-native-paper';
+import Constants from "expo-constants"
+import * as ImagePicker from 'expo-image-picker';
+import { readAsStringAsync } from 'expo-file-system';
+import axios from 'axios';
+import ErrorMessage from '../components/ErrorMessage';
+
+const CreateWaifuForm = ({navigation, userData}) => {
+    const [name, setName] = useState("")
+    const [series, setSeries] = useState("")
+    const [description, setDescription] = useState("")
+    const [gender, setGender] = useState("")
+    const [dataUri, setDataUri] = useState(null)
+    const [image, setImage] = useState(null)
+    const [error, setError] = useState("")
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Gallary Access needed to Upload Image');
+            }
+          }
+        })()
+    }, [])
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 4],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+            const uri = result.uri
+            const format = uri.split(".").pop()
+            const dataUri = await readAsStringAsync(uri, { encoding: 'base64' })
+            setDataUri(dataUri)
+            setImage("data:image/" + format + ";base64," + dataUri)
+        }
+    };
+    /*
+        Uploads Image to Imgur and Adds Waifu to MongoDB
+    */
+    const uploadWaifu = async () => {
+        const data = new FormData();
+        data.append("image", dataUri);
+        const config = {
+            headers: {
+              Authorization: Constants.manifest.extra.imgur_AUTH,
+            },
+        };    
+        axios.post("https://api.imgur.com/3/image", data, config)
+        .then(res => {
+            console.log(res.data.data)
+            axios({
+                method: "post",
+                data: {
+                  name: name,
+                  series: series,
+                  description: description,
+                  gender: gender,
+                  image: res.data.data.link,
+                  owner: userData.username
+                },
+                withCredentials: true,
+                url: "http://192.168.1.199:3000/add-waifu"
+              })
+            .then(() => {
+                navigation.navigate('Home')
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                })
+            })
+        })
+        .catch(() => {setError("An Image is Required.")})
+    }
+
+    return (
+        <View>
+            <Appbar style={styles.appbar}>
+                <Appbar.Action icon="menu" onPress={() => navigation.toggleDrawer()} />
+                <Text style={styles.appHeader}> Create Waifu </Text>
+            </Appbar>
+            <KeyboardAvoidingView
+                behavior="padding"
+                keyboardVerticalOffset={
+                    Platform.select({
+                       ios: () => 0,
+                       android: () => -40
+                    })()}
+                >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <SafeAreaView>
+                        <ScrollView>
+                            <TextInput placeholder='Name' onChangeText={setName} value={name} style={styles.input}/>
+                            <TextInput placeholder='Series' onChangeText={setSeries} value={series} style={styles.input}/>
+                            <TextInput placeholder='Description' onChangeText={setDescription} value={description} 
+                            multiline={true} numberOfLines={4} style={styles.input}/>  
+                            <TextInput placeholder='Gender' onChangeText={setGender} value={gender} style={styles.input}/>
+                            <Button onPress={pickImage}> Choose Image </Button>
+                            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width, height: 200 }} />}
+
+                            <ErrorMessage error={error}/>
+                            <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadWaifu} style={styles.button}> Upload </Button>
+                        </ScrollView>
+                    </SafeAreaView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    appbar: {
+        marginTop: Constants.statusBarHeight
+    },
+    appHeader:{
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#FFFFFF"
+    },
+    input: {
+        marginTop: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.0)'
+    },
+    button: {
+        margin: 20
+    }
+})
+
+export default CreateWaifuForm
