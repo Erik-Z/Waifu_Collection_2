@@ -84,36 +84,25 @@ const CreateWaifuForm = ({navigation, userData}) => {
     }
 
     return (
-        <View>
+        <View style={{flex: 1}}>
             <Appbar style={styles.appbar}>
                 <Appbar.Action icon="menu" onPress={() => navigation.toggleDrawer()} />
                 <Text style={styles.appHeader}> Create Waifu </Text>
             </Appbar>
-            <KeyboardAvoidingView
-                behavior="padding"
-                keyboardVerticalOffset={
-                    Platform.select({
-                       ios: () => 0,
-                       android: () => -40
-                    })()}
-                >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <SafeAreaView>
-                        <ScrollView>
-                            <TextInput placeholder='Name' onChangeText={setName} value={name} style={styles.input}/>
-                            <TextInput placeholder='Series' onChangeText={setSeries} value={series} style={styles.input}/>
-                            <TextInput placeholder='Description' onChangeText={setDescription} value={description} 
-                            multiline={true} numberOfLines={4} style={styles.input}/>  
-                            <TextInput placeholder='Gender' onChangeText={setGender} value={gender} style={styles.input}/>
-                            <Button onPress={pickImage}> Choose Image </Button>
-                            {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width, height: 200 }} />}
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView>
+                    <TextInput placeholder='Name' onChangeText={setName} value={name} style={styles.input}/>
+                    <TextInput placeholder='Series' onChangeText={setSeries} value={series} style={styles.input}/>
+                    <TextInput placeholder='Description' onChangeText={setDescription} value={description} 
+                    multiline={true} numberOfLines={4} style={styles.input}/>  
+                    <TextInput placeholder='Gender' onChangeText={setGender} value={gender} style={styles.input}/>
+                    <Button onPress={pickImage}> Choose Image </Button>
+                    {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width, height: 400 }} />}
 
-                            <ErrorMessage error={error}/>
-                            <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadWaifu} style={styles.button}> Upload </Button>
-                        </ScrollView>
-                    </SafeAreaView>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+                    <ErrorMessage error={error}/>
+                    <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadWaifu} style={styles.button}> Upload </Button>
+                </ScrollView>
+            </SafeAreaView>
         </View>
     )
 }
