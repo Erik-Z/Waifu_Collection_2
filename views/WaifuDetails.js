@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, Dimensions, SafeAreaView, ScrollView} fr
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
 const WaifuDetails = ({navigation, userData, route}) => {
+    console.log(route.params.waifu)
     return (
         <View>
             <Appbar style={styles.appbar}>
@@ -12,6 +13,9 @@ const WaifuDetails = ({navigation, userData, route}) => {
             <SafeAreaView style={styles.container}>
                 <ScrollView style={styles.scrollView}>
                     <Image source={{ uri: route.params.waifu.image }} style={styles.image}/>
+                    <Text> Series: {route.params.waifu.series} </Text>
+                    <Text> Gender: {route.params.waifu.gender} </Text>
+                    <Text> Uploader: {route.params.waifu.owner} </Text>
                 </ScrollView>
             </SafeAreaView>
         </View> 

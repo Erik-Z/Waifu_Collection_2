@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
-import WaifuPreview from '../components/WaifuPreview';
 import axios from 'axios';
+import WaifuList from '../components/WaifuList';
 const HomeContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
     useEffect(() => {
@@ -21,27 +21,13 @@ const HomeContent = ({navigation, userData}) => {
         })
     }
 
-    const renderWaifuCard = ({ item }) => {
-        return <WaifuPreview uri={item.image} name={item.name} 
-                gotoDetails={() => {
-                    navigation.navigate('Details', {waifu: item})
-                }}
-            />
-    }
-
     return (
         <View style={{flex: 1}}>
             <Appbar style={styles.appbar}>
                 <Appbar.Action icon="menu" onPress={() => navigation.toggleDrawer()} />
                 <Text style={styles.appHeader}> Home </Text>
             </Appbar>
-            <SafeAreaView style={{flex: 1}}>
-                <FlatList 
-                    data={waifus}
-                    renderItem={renderWaifuCard}
-                    keyExtractor={item => item._id}
-                />
-            </SafeAreaView>
+            <WaifuList waifus={waifus} navigation={navigation}/>
         </View>
     )
 }
