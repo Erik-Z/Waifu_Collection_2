@@ -11,7 +11,7 @@ const HomeDetailsNavigator = ({userData}) => {
             <Stack.Screen options={{headerShown: false}} name="HomeContent">
                 {props => (<HomeContent {...props} userData={userData}/>)}
             </Stack.Screen>
-            <Stack.Screen name="Details">
+            <Stack.Screen options={{headerShown: false}} name="Details">
                 {props => (<WaifuDetails {...props} userData={userData}/>)}
             </Stack.Screen>
         </Stack.Navigator>
