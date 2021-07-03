@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Dimensions, SafeAreaView, ScrollView} from 'react-native';
 import { Appbar, Card, Title, Paragraph, IconButton, Provider, Menu, Button,
         Colors, Divider, Subheading, Caption, Snackbar } from 'react-native-paper';
+import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 import Constants from "expo-constants"
 import * as MediaLibrary from "expo-media-library"
 import * as FileSystem from "expo-file-system"
+// Banner: ca-app-pub-5603368600392159/4958877436
 
 const WaifuDetails = ({navigation, userData, route}) => {
     const [visible, setVisible] = useState(false)
@@ -14,9 +16,14 @@ const WaifuDetails = ({navigation, userData, route}) => {
     const openSnackbar = () => setSnackbarVisible(true)
     const closeSnackbar = () => setSnackbarVisible(false)
     const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'
+
+    useEffect(() => {
+        setTestDeviceIDAsync("EMULATOR");
+    }, [])
+
+
     const downloadImage = async () => {
-        const { status } = await MediaLibrary.requestPermissionsAsync()
-        
+        const { status } = await MediaLibrary.requestPermissionsAsync()    
         if (status !== "granted") {
             alert('Gallary Access needed to Upload Image');
         } else {
@@ -27,8 +34,6 @@ const WaifuDetails = ({navigation, userData, route}) => {
             );
             
             //save the image in the galery using the link of the cached file
-            // const assetLink = await MediaLibrary.createAssetAsync(file.uri);
-            // console.log(file, assetLink);
             await MediaLibrary.createAssetAsync(file.uri)
             .then(()=>{
                 closeMenu()
@@ -36,6 +41,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
             })
         }
     }
+
     return (
         <Provider>
         <View style={{flex: 1}}>
@@ -99,6 +105,12 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 }}>
                 Image Successfully Downloaded
             </Snackbar>
+            <AdMobBanner
+                bannerSize="smartBanner"
+                adUnitID="ca-app-pub-5603368600392159/4958877436"
+                servePersonalizedAds={false}
+                onDidFailToReceiveAdWithError={(e) => console.log(e)}
+            />
         </View> 
         </Provider>
     )
