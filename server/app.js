@@ -128,6 +128,12 @@ app.get("/waifus", async (req, res) => {
     })
 })
 
+app.get("/all-waifus", async (req, res) => {
+    await Waifu.find().sort({ _id: -1 }).then(data => {
+        res.send(data)
+    })
+})
+
 app.listen(3000, ()=> {
     console.log("Server Running")
 })
