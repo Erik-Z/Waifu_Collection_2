@@ -1,18 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
-import {Card} from 'react-native-paper'
+import { StyleSheet } from 'react-native';
 import axios from 'axios'
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
-import HomeContent from './HomeContent';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
-import AllWaifuContent from './AllWaifuContent'
+import AllWaifuDetailsNavigator from './AllWaifuDetailsNavigator';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
 // waifu search.
-// all waifus
-// followed waifus
+// followed Users
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
@@ -72,15 +69,10 @@ const Home = ({ navigation }) => {
               {props => (<CreateWaifuForm {...props} userData={userData} />)}
             </Drawer.Screen>
             <Drawer.Screen name="All Waifus">
-              {props => (<AllWaifuContent {...props} userData={userData} />)}
+              {() => (<AllWaifuDetailsNavigator userData={userData} />)}
             </Drawer.Screen>
         </Drawer.Navigator>
     )
 }
-
-const styles = StyleSheet.create({
-    
-})
-
 
 export default Home
