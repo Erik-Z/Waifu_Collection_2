@@ -61,6 +61,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 <ScrollView>
                     <Card style={{marginTop: 5}}>
                         <Card.Cover style={styles.image} source={{ uri: route.params.waifu.image }} />
+                        
                         <Card.Content>
                             <Title>
                                 Series: <Text style={{fontSize: 20, fontWeight: "bold"}}>{route.params.waifu.series ? route.params.waifu.series : "None"}</Text>

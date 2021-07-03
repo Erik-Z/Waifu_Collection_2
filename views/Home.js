@@ -6,6 +6,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import HomeContent from './HomeContent';
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
+import AllWaifuContent from './AllWaifuContent'
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
@@ -69,6 +70,9 @@ const Home = ({ navigation }) => {
             </Drawer.Screen>
             <Drawer.Screen name="Create Waifu">
               {props => (<CreateWaifuForm {...props} userData={userData} />)}
+            </Drawer.Screen>
+            <Drawer.Screen name="All Waifus">
+              {props => (<AllWaifuContent {...props} userData={userData} />)}
             </Drawer.Screen>
         </Drawer.Navigator>
     )
