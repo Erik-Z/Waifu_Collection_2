@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Modal, TouchableHighlight, Alert} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
 import axios from 'axios';
@@ -35,7 +35,7 @@ const HomeContent = ({navigation, userData}) => {
             texts={[
                 "Welcome to Waifu Collection",
                 "This is the home page. To upload an image, hit the menu button next to 'Home' and goto the 'Create Waifu' tab.",
-                "If you want to ssee what other people posted, goto the 'All Waifus' tab"
+                "If you want to see what other people posted, goto the 'All Waifus' tab"
             ]}
             visibleState={modalVisible}
             setVisibleState={setModalVisible}/>        
