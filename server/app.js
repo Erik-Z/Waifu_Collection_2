@@ -78,10 +78,19 @@ app.post('/register', async (req, res) => {
             const newUser = new User({
                 username: req.body.username,
                 password: hashedPassword,
+                profileImage: "",
+                likedWaifus: []
             })
             await newUser.save()
             res.send("User Created")
         }
+    })
+})
+
+app.post('/like-waifu', async (req, res) => {
+    User.updateOne({username: req.body.username}, { $push: { likedWaifus: req.body.waifu}})
+    .then(()=>{
+        res.send('Waifu Liked')
     })
 })
 

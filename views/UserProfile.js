@@ -21,18 +21,6 @@ const styles = StyleSheet.create({
     appbar: {
         marginTop: Constants.statusBarHeight
     },
-    // appHeader:{
-    //     fontSize: 20,
-    //     fontWeight: "bold",
-    //     color: "#FFFFFF"
-    // },
-    // input: {
-    //     marginTop: 10,
-    //     backgroundColor: 'rgba(0, 0, 0, 0.0)'
-    // },
-    // button: {
-    //     margin: 20
-    // }
 })
 
 export default UserProfile
