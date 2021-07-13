@@ -5,10 +5,10 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
 import AllWaifuDetailsNavigator from './AllWaifuDetailsNavigator';
+import UserProfile from './UserProfile';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
-// waifu search.
 // followed Users
 
 const Home = ({ navigation }) => {
@@ -64,6 +64,9 @@ const Home = ({ navigation }) => {
         <Drawer.Navigator initialRouteName="Home" drawerContent={props => <LogoutTab {...props} />}>
             <Drawer.Screen name="Home">
               {() => (<HomeDetailsNavigator userData={userData}/>)}
+            </Drawer.Screen>
+            <Drawer.Screen name="My Profile">
+              {props => (<UserProfile {...props} userData={userData} currentUser={userData.username}/>)}
             </Drawer.Screen>
             <Drawer.Screen name="Create Waifu">
               {props => (<CreateWaifuForm {...props} userData={userData} />)}
