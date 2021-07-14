@@ -47,7 +47,6 @@ require("./passportConfig")(passport)
 // server requests
 app.get('/', (req, res) => {
     Waifu.find({}).then(data=>{
-        console.log(data)
         res.send(data)
     }).catch(err => {
         console.log(err)
@@ -55,6 +54,12 @@ app.get('/', (req, res) => {
 })
 
 // Authentication Routes
+
+/*
+*   Logs user into the application
+*   @param username: Username
+*   @param password: Plain text password
+*/
 app.post('/login', async (req, res) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) throw err
@@ -69,6 +74,11 @@ app.post('/login', async (req, res) => {
     })(req, res);
 })
 
+/*
+*   Registers user to the application
+*   @params username: Username obviously.
+*   @params password: Plain text password. It gets hashed and stored in the database.
+*/
 app.post('/register', async (req, res) => {
     User.findOne({username: req.body.username}, async (err, doc) => {
         if (err) throw err
@@ -89,6 +99,11 @@ app.post('/register', async (req, res) => {
     })
 })
 
+/*
+*   Adds a liked waifu to the selected user.
+*   @params username: Selected user
+*   @params waifu: Waifu that is to be liked.
+*/
 app.post('/like-waifu', async (req, res) => {
     User.updateOne({username: req.body.username}, { $push: { likedWaifus: req.body.waifu}})
     .then(()=>{
@@ -96,6 +111,11 @@ app.post('/like-waifu', async (req, res) => {
     })
 })
 
+/*
+*   Removes a liked waifu from the selected user.
+*   @params username: Selected user
+*   @params waifu: Waifu that is to be unliked.
+*/
 app.post('/unlike-waifu', async (req, res) => {
     User.updateOne({username: req.body.username}, { $pull: { likedWaifus: req.body.waifu}})
     .then(()=>{
@@ -103,10 +123,17 @@ app.post('/unlike-waifu', async (req, res) => {
     })
 })
 
+/*
+*   Returns the document of logged in user.
+*/
 app.get('/user', async (req, res) => {
     res.send(req.user)
 })
 
+/*
+*   Returns the user with the specified username
+*   @param username: Username of the user.
+*/
 app.get('/get-user', (req, res)=> {
     User.findOne({username: req.query.username}, async (err, doc) => {
         if (err) throw err
@@ -127,6 +154,16 @@ app.get('/logout', function(req, res){
 /*------------------------------- END OF AUTHENTICATION ROUTES ------------------------------*/
 
 // Waifu API Routes
+
+/*
+*   Adds a new Waifu Document to the database
+*   @param name: Name of the waifu.
+*   @param series: Series of the waifu.
+*   @param description: Description of the waifu.
+*   @param gender: Waifu's gender
+*   @param image: Imgur link of the image.
+*   @param owner: Username of who uploaded the Waifu.
+*/
 app.post('/add-waifu', async (req, res) => {
     const waifu = new Waifu(req.body)
     await waifu.save().then(data => {
@@ -170,6 +207,8 @@ app.get("/all-waifus", async (req, res) => {
         res.send(data)
     })
 })
+
+/*------------------------------- END OF WAIFU API ROUTES ------------------------------*/
 
 app.listen(3000, () => {
     console.log("Server Running")
