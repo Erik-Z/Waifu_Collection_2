@@ -78,8 +78,10 @@ app.post('/register', async (req, res) => {
             const newUser = new User({
                 username: req.body.username,
                 password: hashedPassword,
-                profileImage: "",
-                likedWaifus: []
+                profileImage: "https://i.imgur.com/TA3petQ.jpg",
+                likedWaifus: [],
+                followers: 0,
+                followersList:[]
             })
             await newUser.save()
             res.send("User Created")
@@ -94,10 +96,28 @@ app.post('/like-waifu', async (req, res) => {
     })
 })
 
+app.post('/unlike-waifu', async (req, res) => {
+    User.updateOne({username: req.body.username}, { $pull: { likedWaifus: req.body.waifu}})
+    .then(()=>{
+        res.send('Waifu UnLiked')
+    })
+})
+
 app.get('/user', async (req, res) => {
     res.send(req.user)
 })
 
+app.get('/get-user', (req, res)=> {
+    User.findOne({username: req.query.username}, async (err, doc) => {
+        if (err) throw err
+        if (!doc) res.status(400).send({message: "User Doesn't Exists"})
+        res.send(doc)
+    })
+})
+
+/*
+*   Logs the current user out of the application
+*/
 app.get('/logout', function(req, res){
     req.logout();
     res.send("Logout Successful")
@@ -129,6 +149,11 @@ app.put('/update', async (req, res) => {
     }).catch(err => console.log(err))
 })
 
+/*
+*    Returns a list of all waifus created by a specific owner.
+*    List is in newest - oldest order.
+*    @param owner: Owner of the waifus in the list. 
+*/
 app.get("/waifus", async (req, res) => {
     console.log(req.query.owner)
     await Waifu.find({owner: req.query.owner}).sort({ _id: -1 }).then(data => {
@@ -137,12 +162,15 @@ app.get("/waifus", async (req, res) => {
     })
 })
 
+/*
+*    Returns a list of all waifus in the database in newest - oldest order
+*/
 app.get("/all-waifus", async (req, res) => {
     await Waifu.find().sort({ _id: -1 }).then(data => {
         res.send(data)
     })
 })
 
-app.listen(3000, ()=> {
+app.listen(3000, () => {
     console.log("Server Running")
 })
