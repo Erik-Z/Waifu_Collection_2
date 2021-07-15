@@ -62,7 +62,19 @@ const WaifuDetails = ({navigation, userData, route}) => {
               waifu: route.params.waifu._id
             },
             url: "http://192.168.1.199:3000/like-waifu"
-          })
+        })
+        .then(() => {
+            axios({
+                method: "post",
+                data: {
+                  waifu: route.params.waifu._id
+                },
+                url: "http://192.168.1.199:3000/inc-likes"
+            })
+            .then(() => {
+                setIsLiked(!isLiked)
+            })
+        })
     }
 
     const unlikeWaifu = () => {
@@ -73,7 +85,19 @@ const WaifuDetails = ({navigation, userData, route}) => {
               waifu: route.params.waifu._id
             },
             url: "http://192.168.1.199:3000/unlike-waifu"
-          })
+        })
+        .then(() => {
+            axios({
+                method: "post",
+                data: {
+                  waifu: route.params.waifu._id
+                },
+                url: "http://192.168.1.199:3000/dec-likes"
+            })
+            .then(() => {
+                setIsLiked(!isLiked)
+            })
+        })
     }
 
     return (
@@ -126,7 +150,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                                     } else {
                                         likeWaifu()
                                     }
-                                    setIsLiked(!isLiked)
+                                    
                                 }}
                             />
                             <Caption>

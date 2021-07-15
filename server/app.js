@@ -225,6 +225,10 @@ app.post('/unlike-waifu', async (req, res) => {
     })
 })
 
+/*
+*   Increments selected waifu's likes count by 1
+*   @params waifu: ID of selected waifu.
+*/
 app.post('/inc-likes', async (req, res) => {
     Waifu.updateOne({_id: req.body.waifu}, { $inc: {likes: 1}})
     .then(()=>{
@@ -233,6 +237,10 @@ app.post('/inc-likes', async (req, res) => {
     })
 })
 
+/*
+*   Decrements selected waifu's likes count by 1
+*   @params waifu: ID of selected waifu.
+*/
 app.post('/dec-likes', async (req, res) => {
     Waifu.updateOne({_id: req.body.waifu}, { $inc: {likes: -1}})
     .then(()=>{
