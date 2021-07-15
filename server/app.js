@@ -170,7 +170,6 @@ app.put('/update', async (req, res) => {
 app.get("/waifus", async (req, res) => {
     console.log(req.query.owner)
     await Waifu.find({owner: req.query.owner}).sort({ _id: -1 }).then(data => {
-        console.log(data)
         res.send(data)
     })
 })
