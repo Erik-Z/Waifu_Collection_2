@@ -4,6 +4,7 @@ import { Appbar, Card, Title, Paragraph, IconButton, Provider, Menu, Button,
         Colors, Divider, Subheading, Caption, Snackbar } from 'react-native-paper';
 import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 import Constants from "expo-constants"
+import axios from 'axios';
 import * as MediaLibrary from "expo-media-library"
 import * as FileSystem from "expo-file-system"
 // Banner: ca-app-pub-5603368600392159/4958877436
@@ -11,6 +12,8 @@ import * as FileSystem from "expo-file-system"
 const WaifuDetails = ({navigation, userData, route}) => {
     const [visible, setVisible] = useState(false)
     const [snackbarVisible, setSnackbarVisible] = useState(false)
+    const [isLiked, setIsLiked] = useState(false)
+
     const openMenu = () => setVisible(true)
     const closeMenu = () => setVisible(false)
     const openSnackbar = () => setSnackbarVisible(true)
@@ -19,6 +22,15 @@ const WaifuDetails = ({navigation, userData, route}) => {
 
     useEffect(() => {
         setTestDeviceIDAsync("EMULATOR");
+
+        axios.get("http://192.168.1.199:3000/liked-waifus", {
+            params: {username: userData.username}
+        })
+        .then((likedWaifus)=>{
+            if (likedWaifus.data.includes(route.params.waifu._id)){
+                setIsLiked(true)
+            }
+        })
     }, [])
 
 
@@ -40,6 +52,28 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 openSnackbar()
             })
         }
+    }
+
+    const likeWaifu = () => {
+        axios({
+            method: "post",
+            data: {
+              username: userData.username,
+              waifu: route.params.waifu._id
+            },
+            url: "http://192.168.1.199:3000/like-waifu"
+          })
+    }
+
+    const unlikeWaifu = () => {
+        axios({
+            method: "post",
+            data: {
+              username: userData.username,
+              waifu: route.params.waifu._id
+            },
+            url: "http://192.168.1.199:3000/unlike-waifu"
+          })
     }
 
     return (
@@ -83,10 +117,17 @@ const WaifuDetails = ({navigation, userData, route}) => {
                         <Card.Actions>
                             {/* <Button>Cancel</Button> */}
                             <IconButton
-                                icon="heart-outline"
+                                icon= {isLiked ? "heart" : "heart-outline"}
                                 color={Colors.red500}
                                 size={20}
-                                onPress={() => console.log('Pressed')}
+                                onPress={() => {
+                                    if (isLiked){
+                                        unlikeWaifu()
+                                    } else {
+                                        likeWaifu()
+                                    }
+                                    setIsLiked(!isLiked)
+                                }}
                             />
                             <Caption>
                                 Uploader: {route.params.waifu.owner}

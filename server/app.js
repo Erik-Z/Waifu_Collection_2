@@ -100,30 +100,6 @@ app.post('/register', async (req, res) => {
 })
 
 /*
-*   Adds a liked waifu to the selected user.
-*   @params username: Selected user
-*   @params waifu: Waifu that is to be liked.
-*/
-app.post('/like-waifu', async (req, res) => {
-    User.updateOne({username: req.body.username}, { $push: { likedWaifus: req.body.waifu}})
-    .then(()=>{
-        res.send('Waifu Liked')
-    })
-})
-
-/*
-*   Removes a liked waifu from the selected user.
-*   @params username: Selected user
-*   @params waifu: Waifu that is to be unliked.
-*/
-app.post('/unlike-waifu', async (req, res) => {
-    User.updateOne({username: req.body.username}, { $pull: { likedWaifus: req.body.waifu}})
-    .then(()=>{
-        res.send('Waifu UnLiked')
-    })
-})
-
-/*
 *   Returns the document of logged in user.
 */
 app.get('/user', async (req, res) => {
@@ -208,7 +184,50 @@ app.get("/all-waifus", async (req, res) => {
     })
 })
 
+/*
+*    Returns a list of liked waifus of a specified user
+*    @params username: specified User
+*/
+app.get("/liked-waifus", async (req, res) => {
+    await User.findOne({username: req.query.username}, async (err, doc) => {
+        if (err) throw err
+        if (!doc) res.status(400).send({message: "User Doesn't Exists"})
+        res.send(doc.likedWaifus)
+    })
+})
+
 /*------------------------------- END OF WAIFU API ROUTES ------------------------------*/
+
+// User Profile Routes
+
+/*
+*   Adds a liked waifu to the selected user.
+*   @params username: Selected user
+*   @params waifu: ID of the waifu that is to be liked.
+*/
+app.post('/like-waifu', async (req, res) => {
+    User.updateOne({username: req.body.username}, { $push: { likedWaifus: req.body.waifu}})
+    .then(()=>{
+        res.send('Waifu Liked')
+        console.log('Waifu Liked')
+    })
+})
+
+/*
+*   Removes a liked waifu from the selected user.
+*   @params username: Selected user
+*   @params waifu: ID of the waifu that is to be unliked.
+*/
+app.post('/unlike-waifu', async (req, res) => {
+    User.updateOne({username: req.body.username}, { $pull: { likedWaifus: req.body.waifu}})
+    .then(()=>{
+        res.send('Waifu UnLiked')
+        console.log('Waifu Unliked')
+    })
+})
+
+app.post('follow-user')
+app.post('unfollow-user')
 
 app.listen(3000, () => {
     console.log("Server Running")
