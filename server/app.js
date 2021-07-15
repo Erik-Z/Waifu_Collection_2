@@ -225,6 +225,22 @@ app.post('/unlike-waifu', async (req, res) => {
     })
 })
 
+app.post('/inc-likes', async (req, res) => {
+    Waifu.updateOne({_id: req.body.waifu}, { $inc: {likes: 1}})
+    .then(()=>{
+        res.send('200 Success')
+        console.log(req.body.waifu + " Likes Incremented")
+    })
+})
+
+app.post('/dec-likes', async (req, res) => {
+    Waifu.updateOne({_id: req.body.waifu}, { $inc: {likes: -1}})
+    .then(()=>{
+        res.send('200 Success')
+        console.log(req.body.waifu + " Likes Decremented")
+    })
+})
+
 app.post('follow-user')
 app.post('unfollow-user')
 

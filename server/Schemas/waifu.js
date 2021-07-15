@@ -6,6 +6,7 @@ const WaifuSchema = new mongoose.Schema({
     description:String,
     gender:String,
     image:String,
+    likes:Number,
     
     // User Information
     owner:String

@@ -67,6 +67,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
                   description: description,
                   gender: gender,
                   image: res.data.data.link,
+                  likes: 0,
                   owner: userData.username
                 },
                 withCredentials: true,
