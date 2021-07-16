@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { readAsStringAsync } from 'expo-file-system';
 import axios from 'axios';
 import ErrorMessage from '../components/ErrorMessage';
+import { CommonActions } from '@react-navigation/native';
 
 const CreateWaifuForm = ({navigation, userData}) => {
     const [name, setName] = useState("")
@@ -74,14 +75,20 @@ const CreateWaifuForm = ({navigation, userData}) => {
                 url: "http://192.168.1.199:3000/add-waifu"
               })
             .then(() => {
-                navigation.navigate('Home')
-                  navigation.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}],
-                })
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                          { name: 'Home' },
+                        ],
+                    })
+                )
             })
         })
-        .catch(() => {setError("An Image is Required.")})
+        .catch((err) => {
+            console.log(err)
+            setError("An Image is Required.")
+        })
     }
 
     return (
