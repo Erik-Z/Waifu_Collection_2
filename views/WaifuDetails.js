@@ -101,10 +101,23 @@ const WaifuDetails = ({navigation, userData, route}) => {
         })
     }
 
+    const deleteWaifu = () => {
+        axios({
+            method: "delete",
+            data: {
+              id: route.params.waifu._id
+            },
+            url: "http://192.168.1.199:3000/delete"
+        })
+        .then(() => {
+            navigation.goBack()
+        })
+    }
+
     const renderDeleteWaifu = () => {
         if (route.params.waifu.owner == userData.username){
             return (
-                <Menu.Item onPress={() => {navigation.goBack()}} title="Delete Waifu" />
+                <Menu.Item onPress={() => {deleteWaifu()}} title="Delete Waifu" />
             )
         }
     } 
