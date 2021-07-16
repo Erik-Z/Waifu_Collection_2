@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
 import axios from 'axios';
@@ -8,21 +9,18 @@ import CustomModal from '../components/Modal';
 const HomeContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
-    useEffect(() => {
-        if(userData){
-            getWaifus()
-        }
-    }, [userData])
-
-    const getWaifus = () => {
-        axios.get("http://192.168.1.199:3000/waifus", {
+    
+    useFocusEffect(
+        useCallback(() => {
+            axios.get("http://192.168.1.199:3000/waifus", {
                 params: {owner: userData.username}
-        })
-        .then(res => {
-            setWaifus(res.data)
-        })
-    }
-
+            })
+            .then(res => {
+                setWaifus(res.data)
+            })
+        }, [])
+    )
+    
     return (
         <View style={{flex: 1}}>
             <Appbar style={styles.appbar}>

@@ -1,27 +1,34 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, {useState, useCallback} from 'react';
+import { StyleSheet, Text, View, Image, } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Appbar, TextInput, Button, Avatar } from 'react-native-paper';
 import { Col, Row, Grid } from "react-native-paper-grid";
 import Constants from "expo-constants"
 import axios from 'axios'
-// TODO: Fetch 'currentUser' Data on mount
-// Display user data
+// TODO: Display user data
 
-const UserProfile = ({navigation, userData, currentUser}) => {
+const UserProfile = ({navigation, userData, currentUser, route}) => {
     const [currentUserData, setcurrentUserData] = useState(null)
-    useEffect(() => {
-        axios.get("http://192.168.1.199:3000/get-user", {
-            params: {username: currentUser}
-        })
-        .then(res => {
-            if (!res.data){
-                console.log("Something fucked up. Not suppose to show")
-            } else {
-                setcurrentUserData(res.data)
+    useFocusEffect(
+        useCallback(() => {
+            console.log("User Profile Mounted")
+            axios.get("http://192.168.1.199:3000/get-user", {
+                params: {username: currentUser}
+            })
+            .then(res => {
+                if (!res.data){
+                    console.log("Something fucked up. Not suppose to show")
+                } else {
+                    setcurrentUserData(res.data)
+                }
+            })
+            .catch(err => console.log(err))
+
+            return () => {
+                console.log("User Profile UnMounted")
             }
-        })
-        .catch(err => console.log(err))
-    }, [])
+        }, [])
+    )
 
     return(
         <View style={{flex: 1}}>

@@ -12,6 +12,8 @@ import UserProfile from './UserProfile';
 // followed Users
 // Implement delete waifu
 // Implement edit waifu
+// Implement liked waifu page.
+// Goto user profile when 'Uploader ____' is clicked
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
@@ -67,7 +69,7 @@ const Home = ({ navigation }) => {
             <Drawer.Screen name="Home">
               {() => (<HomeDetailsNavigator userData={userData}/>)}
             </Drawer.Screen>
-            <Drawer.Screen name="My Profile">
+            <Drawer.Screen name="My Profile" >
               {props => (<UserProfile {...props} userData={userData} currentUser={userData.username}/>)}
             </Drawer.Screen>
             <Drawer.Screen name="Create Waifu">

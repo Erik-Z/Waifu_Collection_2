@@ -22,7 +22,6 @@ const WaifuDetails = ({navigation, userData, route}) => {
 
     useEffect(() => {
         setTestDeviceIDAsync("EMULATOR");
-
         axios.get("http://192.168.1.199:3000/liked-waifus", {
             params: {username: userData.username}
         })
@@ -31,6 +30,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 setIsLiked(true)
             }
         })
+        return ()=> {console.log('Waifu Details Unmounted')}
     }, [])
 
 
@@ -163,7 +163,13 @@ const WaifuDetails = ({navigation, userData, route}) => {
                                 }}
                             />
                             <Caption>
-                                Uploader: {route.params.waifu.owner}
+                                <Text>Uploader:  </Text>
+                                <Text style={styles.hyperText}
+                                onPress={
+                                    () => {navigation.navigate('Profile')} 
+                                }>
+                                    {route.params.waifu.owner}
+                                </Text>
                             </Caption>
                         </Card.Actions>
                     </Card>
@@ -204,5 +210,8 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         marginLeft: -15
     },
+    hyperText: {
+        color:"#0645AD"
+    }
 })
 export default WaifuDetails
