@@ -6,6 +6,7 @@ import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
 import AllWaifuDetailsNavigator from './AllWaifuDetailsNavigator';
 import UserProfile from './UserProfile';
+import { createContext } from 'react';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
@@ -14,6 +15,7 @@ import UserProfile from './UserProfile';
 // Implement edit waifu
 // Implement liked waifu page.
 // Goto user profile when 'Uploader ____' is clicked
+// Use context to make authenticated user global.
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
@@ -54,13 +56,23 @@ const Home = ({ navigation }) => {
     }
 
     const LogoutTab = (props) => {
+      return (
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+          <DrawerItem label="Logout" onPress={logout}/>
+        </DrawerContentScrollView>
+      )
+    }
+
+    const MyProfileTab = () => {
+      if(userData){
         return (
-          <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
-            <DrawerItem label="Logout" onPress={logout}/>
-          </DrawerContentScrollView>
-        );
-      }
+          <Drawer.Screen name="My Profile">
+            {props => (<UserProfile {...props} userData={userData} currentUser={userData.username} />)}
+          </Drawer.Screen>
+        )
+      }  
+    }
 
     const Drawer = createDrawerNavigator()
 
@@ -69,9 +81,7 @@ const Home = ({ navigation }) => {
             <Drawer.Screen name="Home">
               {() => (<HomeDetailsNavigator userData={userData}/>)}
             </Drawer.Screen>
-            <Drawer.Screen name="My Profile" >
-              {props => (<UserProfile {...props} userData={userData} currentUser={userData.username}/>)}
-            </Drawer.Screen>
+            {MyProfileTab()}
             <Drawer.Screen name="Create Waifu">
               {props => (<CreateWaifuForm {...props} userData={userData} />)}
             </Drawer.Screen>

@@ -21,6 +21,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
     const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'
 
     useEffect(() => {
+        console.log("Waifu Details Mounted")
         setTestDeviceIDAsync("EMULATOR");
         axios.get("http://192.168.1.199:3000/liked-waifus", {
             params: {username: userData.username}
@@ -166,7 +167,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                                 <Text>Uploader:  </Text>
                                 <Text style={styles.hyperText}
                                 onPress={
-                                    () => {navigation.navigate('Profile')} 
+                                    () => {navigation.navigate('Profile', {user: route.params.waifu.owner})} 
                                 }>
                                     {route.params.waifu.owner}
                                 </Text>
