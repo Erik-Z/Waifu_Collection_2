@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View} from 'react-native';
 import { Appbar } from 'react-native-paper';
 import Constants from "expo-constants"
@@ -6,19 +7,16 @@ import axios from 'axios';
 import WaifuList from '../components/WaifuList';
 const AllWaifuContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
-    useEffect(() => {
-        if(userData){
-            getWaifus()
-        }
-    }, [userData])
 
-    const getWaifus = () => {
-        axios.get("http://192.168.1.199:3000/all-waifus")
-        .then(res => {
-            setWaifus(res.data)
-        })
-        .catch(e => console.log(e))
-    }
+    useFocusEffect(
+        useCallback(() => {
+            axios.get("http://192.168.1.199:3000/all-waifus")
+            .then(res => {
+                setWaifus(res.data)
+            })
+            .catch(e => console.log(e))
+        }, [])
+    )
 
     return (
         <View style={{flex: 1}}>
