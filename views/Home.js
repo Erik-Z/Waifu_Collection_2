@@ -10,6 +10,8 @@ import UserProfile from './UserProfile';
 // TODO:
 // User Profiles: Show waifus uploaded by user
 // followed Users
+// Implement delete waifu
+// Implement edit waifu
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)

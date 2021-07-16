@@ -100,6 +100,14 @@ const WaifuDetails = ({navigation, userData, route}) => {
         })
     }
 
+    const renderDeleteWaifu = () => {
+        if (route.params.waifu.owner == userData.username){
+            return (
+                <Menu.Item onPress={() => {navigation.goBack()}} title="Delete Waifu" />
+            )
+        }
+    } 
+
     return (
         <Provider>
         <View style={{flex: 1}}>
@@ -109,6 +117,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 anchor={{ x: Dimensions.get('window').width, y: 70 }}>
                 <Menu.Item onPress={downloadImage} title="Download Image" />
                 <Menu.Item onPress={() => {}} title="Report" />
+                {renderDeleteWaifu()}
             </Menu>
             <Appbar style={styles.appbar}>
                 <Appbar.Action icon="keyboard-backspace" onPress={() => navigation.goBack()} />
