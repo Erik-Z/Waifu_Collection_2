@@ -1,6 +1,7 @@
 import React from 'react';
 import WaifuDetails from './WaifuDetails';
 import AllWaifuContent from './AllWaifuContent';
+import UserProfile from './UserProfile';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator()
@@ -13,6 +14,9 @@ const AllWaifuDetailsNavigator = ({userData}) => {
             </Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="Details">
                 {props => (<WaifuDetails {...props} userData={userData}/>)}
+            </Stack.Screen>
+            <Stack.Screen options={{headerShown: false}} name="Profile">
+                    {props => (<UserProfile {...props} userData={userData}/>)}
             </Stack.Screen>
         </Stack.Navigator>
     )
