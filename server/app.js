@@ -249,8 +249,53 @@ app.post('/dec-likes', async (req, res) => {
     })
 })
 
-app.post('follow-user')
-app.post('unfollow-user')
+/*
+*   Append specified user to authenticated user's follow list
+*   @param user: the user that is to be followed
+*/
+app.post('/follow-user', async (req, res) => {
+    if(req.user){
+        User.updateOne({username: req.user.username}, { $push: { followersList: req.body.user}})
+        .then(() => {
+            res.send("200 Success")
+            console.log(req.body.user + " Followed")
+        })
+    } else {
+        res.status(400).send({message: "Not Logged In"})
+    }
+})
+
+/*
+*   Remove specified user to authenticated user's follow list
+*   @param user: the user that is to be unfollowed
+*/
+app.post('/unfollow-user', async (req, res) => {
+    if(req.user){
+        User.updateOne({username: req.user.username}, { $pull: { followersList: req.body.user}})
+        .then(() => {
+            res.send("200 Success")
+            console.log(req.body.user + " UnFollowed")
+        })
+    } else {
+        res.status(400).send({message: "Not Logged In"})
+    }
+})
+
+app.post('/inc-followers', async (req, res) => {
+    User.updateOne({username: req.body.user}, { $inc: {followers: 1}})
+    .then(()=>{
+        res.send('200 Success')
+        console.log(req.body.user + " Followers Incremented")
+    })
+})
+
+app.post('/dec-followers', async (req, res) => {
+    User.updateOne({username: req.body.user}, { $inc: {followers: -1}})
+    .then(()=>{
+        res.send('200 Success')
+        console.log(req.body.user + " Followers Decremented")
+    })
+})
 
 app.listen(3000, () => {
     console.log("Server Running")
