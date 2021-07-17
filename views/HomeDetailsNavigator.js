@@ -3,7 +3,7 @@ import HomeContent from './HomeContent';
 import WaifuDetails from './WaifuDetails';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserProfile from './UserProfile';
-import {Text} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 
 const Stack = createStackNavigator()
 
@@ -23,8 +23,19 @@ const HomeDetailsNavigator = ({userData}) => {
             </Stack.Navigator>
         )
     } else {
-        return <Text> Loadin' </Text>
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size={100} color="#8F00FF" />
+            </View>
+        )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center"
+    }
+});
 
 export default HomeDetailsNavigator
