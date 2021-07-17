@@ -73,6 +73,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 url: "http://192.168.1.199:3000/inc-likes"
             })
             .then(() => {
+                route.params.waifu.likes += 1
                 setIsLiked(!isLiked)
             })
         })
@@ -96,6 +97,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 url: "http://192.168.1.199:3000/dec-likes"
             })
             .then(() => {
+                route.params.waifu.likes -= 1
                 setIsLiked(!isLiked)
             })
         })
@@ -177,6 +179,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                                 }}
                             />
                             <Caption>
+                                <Text style={styles.likedText}>{route.params.waifu.likes}  </Text> 
                                 <Text>Uploader:  </Text>
                                 <Text style={styles.hyperText}
                                 onPress={
@@ -192,6 +195,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
             <Snackbar
                 visible={snackbarVisible}
                 onDismiss={closeSnackbar}
+                style={styles.snackBar}
                 action={{
                 label: 'Dismiss',
                 onPress: () => {
@@ -226,6 +230,13 @@ const styles = StyleSheet.create({
     },
     hyperText: {
         color:"#0645AD"
-    }
+    },
+    snackBar: {
+        marginBottom: 30
+    },
+    likedText: {
+        color: Colors.red500,
+        fontSize: 15 
+    },
 })
 export default WaifuDetails

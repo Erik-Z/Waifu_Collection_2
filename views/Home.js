@@ -6,7 +6,6 @@ import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
 import AllWaifuDetailsNavigator from './AllWaifuDetailsNavigator';
 import UserProfile from './UserProfile';
-import { createContext } from 'react';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
@@ -15,7 +14,6 @@ import { createContext } from 'react';
 // Implement edit waifu
 // Implement liked waifu page.
 // Goto user profile when 'Uploader ____' is clicked
-// Use context to make authenticated user global.
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
