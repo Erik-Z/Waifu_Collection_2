@@ -62,7 +62,7 @@ export default function LoginView({ navigation }) {
     return (
       <View>
         <TextInput placeholder='Username' onChangeText={setUsername} value={username} style={styles.input}/>
-        <TextInput placeholder='Password' onChangeText={setPassword} value={password} style={styles.input}/>
+        <TextInput placeholder='Password' onChangeText={setPassword} value={password} style={styles.input} secureTextEntry={true}/>
         <Button icon="login" mode="contained" onPress={login} style={styles.button}>
         Login
         </Button>
