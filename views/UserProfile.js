@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
-import { StyleSheet, Text, View, Image, } from 'react-native';
+import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Appbar, TextInput, Button, Avatar } from 'react-native-paper';
+import { Appbar, TextInput, Avatar, Menu, Provider } from 'react-native-paper';
 import { Col, Row, Grid } from "react-native-paper-grid";
 import Constants from "expo-constants"
 import axios from 'axios'
@@ -9,6 +9,12 @@ import axios from 'axios'
 
 const UserProfile = ({navigation, userData, currentUser, route}) => {
     const [currentUserData, setcurrentUserData] = useState(null)
+    const [visible, setVisible] = useState(false)
+
+    const openMenu = () => setVisible(true)
+    const closeMenu = () => setVisible(false)
+    const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'
+
     if (route.params){
         currentUser = route.params.user
     }
@@ -45,11 +51,35 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
         }
     }
 
+    const renderMenuOptions = () => {
+        if(userData.username == currentUser) {
+            return (
+                <Menu.Item onPress={() => {
+                    closeMenu()
+                    navigation.navigate("EditProfile")
+                }} title="Edit Profile" />
+            )
+        } else {
+            return (
+                <Menu.Item onPress={closeMenu} title="Follow" />
+            )
+        }
+    }
+
     return(
+        <Provider>
         <View style={{flex: 1}}>
+            <Menu
+                visible={visible}
+                onDismiss={closeMenu}
+                anchor={{ x: Dimensions.get('window').width, y: 70 }}>
+                {renderMenuOptions()}
+            </Menu>
+
             <Appbar style={styles.appbar}>
                 {renderAppbarDrawer()}
                 <Appbar.Content titleStyle={styles.appHeader} title={currentUser + "'s Profile"}/>
+                <Appbar.Action icon={MORE_ICON} onPress={openMenu} />
             </Appbar>
             <Avatar.Image size={200} style={styles.profileImage} source={{ uri: currentUserData ? currentUserData.profileImage : "data:image/jpeg;base64,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" }}/>
             <Grid>
@@ -67,8 +97,12 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                         </Text>
                     </Col>
                 </Row>
+                <Row style={{marginTop: 20}}>
+                    <Text>About:</Text>
+                </Row>
             </Grid>
         </View>
+        </Provider>
     )
 }
 

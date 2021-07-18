@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import HomeContent from './HomeContent';
 import WaifuDetails from './WaifuDetails';
+import EditProfile from './EditProfile';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserProfile from './UserProfile';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
@@ -19,6 +20,9 @@ const HomeDetailsNavigator = ({userData}) => {
                 </Stack.Screen>
                 <Stack.Screen options={{headerShown: false}} name="Profile">
                     {props => (<UserProfile {...props} userData={userData}/>)}
+                </Stack.Screen>
+                <Stack.Screen options={{headerShown: false}} name="EditProfile">
+                    {props => (<EditProfile {...props} userData={userData}/>)}
                 </Stack.Screen>
             </Stack.Navigator>
         )
