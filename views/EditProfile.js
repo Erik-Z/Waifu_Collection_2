@@ -35,7 +35,22 @@ const EditProfile = ({navigation, userData}) => {
             setDataUri(dataUri)
             setImage("data:image/" + format + ";base64," + dataUri)
         }
-    };
+    }
+
+    const uploadProfileImage = () => {
+        axios({
+            method: "post",
+            data: {
+              image: dataUri,
+              user: userData.username
+            },
+            withCredentials: true,
+            url: "http://192.168.1.199:3000/upload-profile-picture"
+        })
+        .then(() => {
+            navigation.goBack()
+        })
+    }
 
     return(
         <View style={{flex: 1}}>
@@ -46,8 +61,8 @@ const EditProfile = ({navigation, userData}) => {
             <TextInput placeholder='About' onChangeText={setDescription} maxLength = {200}
             value={description} style={styles.input} multiline={true} numberOfLines={4}/>
             <Button onPress={pickImage}> Change Profile Image </Button>
-            {image && <Avatar.Image size={200} style={styles.profileImage} source={{ uri: image}}/>}
-            <Button icon="apple-keyboard-shift" mode="contained" onPress={()=>{}} style={styles.button}> Save </Button>
+            {image && <Avatar.Image size={200} style={styles.profileImage} source={{ uri: image }}/>}
+            <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadProfileImage} style={styles.button}> Save </Button>
         </View>
     )
 }
