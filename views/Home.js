@@ -29,7 +29,17 @@ const Home = ({ navigation }) => {
               routes: [{name: 'Login'}],
             })
           } else {
-              setUserData(res.data)
+              axios.get("http://192.168.1.199:3000/get-user", {
+                params: {username: res.data.username}
+              })
+              .then(result => {
+                if (!res.data){
+                  console.log("Not suppose to show")
+                } else {
+                  setUserData(result.data)
+                }
+              })
+              .catch(err => console.log(err))
           }
         })
         .catch(err => console.log(err))

@@ -7,22 +7,11 @@ import { Filters } from '../constants';
 import axios from 'axios';
 const WaifuList = (props) => {
     const [searchQuery, setSearchQuery] = useState('')
-    const [userInfo, setUserInfo] = useState(null)
+
     useFocusEffect(
         useCallback(() => {
             console.log("WaifuList Mounted")
-            axios.get("http://192.168.1.199:3000/get-user", {
-                params: {username: props.userData.username}
-            })
-            .then(res => {
-                if (!res.data){
-                    console.log("Not suppose to show")
-                } else {
-                    setUserInfo(res.data)
-                }
-            })
-            .catch(err => console.log(err))
-
+            
             return () => {
                 console.log("Waifu List UnMounted")
             }
@@ -41,11 +30,11 @@ const WaifuList = (props) => {
     }
     
     const likedFilter = (waifuList) => {
-        return waifuList.filter(waifu => {return userInfo.likedWaifus.includes(waifu._id)})
+        return waifuList.filter(waifu => {return props.userData.likedWaifus.includes(waifu._id)})
     }
 
     const followedFilter = (waifuList) => {
-        return waifuList.filter(waifu => {return userInfo.followersList.includes(waifu.owner)})
+        return waifuList.filter(waifu => {return props.userData.followersList.includes(waifu.owner)})
     }
 
     const filterWaifuList = () => {
