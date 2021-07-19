@@ -93,7 +93,8 @@ app.post('/register', async (req, res) => {
                 profileImage: "https://i.imgur.com/TA3petQ.jpg",
                 likedWaifus: [],
                 followers: 0,
-                followersList:[]
+                followersList:[],
+                about: ""
             })
             await newUser.save()
             res.send("User Created")
@@ -325,6 +326,14 @@ app.post('/upload-profile-picture', async (req, res) => {
             console.log(data)
             res.status(400).send({message: "Server is being stupid. Just try uploading again."})
         }
+    })
+})
+
+app.post('/update-user-about', async (req, res) => {
+    User.updateOne({username: req.body.user}, {about: req.body.about})
+    .then(()=>{
+        res.send('200 Success')
+        console.log(req.body.user + "'s About status updated.")
     })
 })
 

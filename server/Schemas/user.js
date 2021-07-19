@@ -5,7 +5,8 @@ const UserSchema = new mongoose.Schema({
     profileImage:String,
     likedWaifus:[String],
     followers:Number,
-    followersList:[String]
+    followersList:[String],
+    about: String
 })
 
 // module.exports("User", user)

@@ -98,7 +98,8 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                     </Col>
                 </Row>
                 <Row style={{marginTop: 20}}>
-                    <Text>About:</Text>
+                    <Text style={{fontWeight: "bold"}}>About: </Text>
+                    <Text>{currentUserData ? currentUserData.about : ""}</Text>
                 </Row>
             </Grid>
         </View>
