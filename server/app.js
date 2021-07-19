@@ -13,7 +13,6 @@ require('./Schemas/waifu')
 require('./Schemas/user')
 
 // Data Base
-// const mongoURL = 'mongodb+srv://leafbright:pfzGv0E84FZtuPcV@cluster0.cazqj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const mongoURL = process.env.MONGO_URI
 const Waifu = mongoose.model('Waifu')
 const User = mongoose.model('User')
