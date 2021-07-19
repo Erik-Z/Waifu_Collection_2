@@ -69,7 +69,10 @@ const HomeContent = ({navigation, userData}) => {
                 texts={[
                     "Welcome to Waifu Collection",
                     "This is the home page. To upload an image, hit the menu button next to 'Home' and goto the 'Create Waifu' tab.",
-                    "If you want to see what other people posted, goto the 'All Waifus' tab"
+                    "If you want to see what other people posted, goto the filters next to the info button and choose the 'All Waifus' filter.",
+                    "NOTE: Due to the nature of how images are hosted. Uploading problems are outside of my control. If you get the 'Something went wrong' error when uploading, Simply click upload again and it should work.",
+                    "If you find any bugs, please email me at erikz.dev@gmail.com.",
+                    "Any feature suggestions are also appreciated. Thank you!"
                 ]}
                 visibleState={modalVisible}
                 setVisibleState={setModalVisible}/>        
