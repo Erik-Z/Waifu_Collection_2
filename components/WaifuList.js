@@ -35,6 +35,10 @@ const WaifuList = (props) => {
                     }}
                 />
     }
+
+    const myFilter = (waifuList) => {
+        return waifuList.filter(waifu => {return waifu.owner === props.userData.username})
+    }
     
     const likedFilter = (waifuList) => {
         return waifuList.filter(waifu => {return userInfo.likedWaifus.includes(waifu._id)})
@@ -48,7 +52,7 @@ const WaifuList = (props) => {
         if (props.filter === Filters.MY_WAIFUS){
             return (
                 <FlatList
-                    data={props.waifus.filter(waifu => { return waifu.name.toLowerCase().includes(searchQuery.toLowerCase())})}
+                    data={myFilter(props.waifus.filter(waifu => { return waifu.name.toLowerCase().includes(searchQuery.toLowerCase())}))}
                     renderItem={renderWaifuCard}
                     keyExtractor={item => item._id}
                 />
@@ -65,6 +69,14 @@ const WaifuList = (props) => {
             return (
                 <FlatList
                     data={followedFilter(props.waifus.filter(waifu => { return waifu.name.toLowerCase().includes(searchQuery.toLowerCase())}))}
+                    renderItem={renderWaifuCard}
+                    keyExtractor={item => item._id}
+                />
+            )
+        } else if (props.filter === Filters.ALL){
+            return (
+                <FlatList
+                    data={props.waifus.filter(waifu => { return waifu.name.toLowerCase().includes(searchQuery.toLowerCase())})}
                     renderItem={renderWaifuCard}
                     keyExtractor={item => item._id}
                 />
