@@ -291,6 +291,10 @@ app.post('/unfollow-user', async (req, res) => {
     }
 })
 
+/*
+*   Increments the number of followers of a specified user.
+*   @params user: The specified User
+*/
 app.post('/inc-followers', async (req, res) => {
     User.updateOne({username: req.body.user}, { $inc: {followers: 1}})
     .then(()=>{
@@ -299,6 +303,10 @@ app.post('/inc-followers', async (req, res) => {
     })
 })
 
+/*
+*   Decrements the number of followers of a specified user.
+*   @params user: The specified User
+*/
 app.post('/dec-followers', async (req, res) => {
     User.updateOne({username: req.body.user}, { $inc: {followers: -1}})
     .then(()=>{
@@ -307,6 +315,11 @@ app.post('/dec-followers', async (req, res) => {
     })
 })
 
+/*
+*   Uploads an image to imgur and sets it as the profile picture of uploader
+*   @params image: image to be uploaded.
+*   @params user: currently logged in user.
+*/
 app.post('/upload-profile-picture', async (req, res) => {
     const formData = new FormData();
     formData.append('image', req.body.image)
@@ -332,6 +345,11 @@ app.post('/upload-profile-picture', async (req, res) => {
     })
 })
 
+/*
+*   Updates the about section of the user.
+*   @params about: the contents of the new about section.
+*   @params user: currently logged in user.
+*/
 app.post('/update-user-about', async (req, res) => {
     User.updateOne({username: req.body.user}, {about: req.body.about})
     .then(()=>{
