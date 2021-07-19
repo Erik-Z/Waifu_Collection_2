@@ -6,11 +6,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { readAsStringAsync } from 'expo-file-system';
 import Constants from "expo-constants"
 import axios from 'axios'
-
+import ErrorMessage from '../components/ErrorMessage';
 const EditProfile = ({navigation, userData}) => {
     const [dataUri, setDataUri] = useState(null)
     const [image, setImage] = useState(null)
     const [description, setDescription] = useState("")
+    const [error, setError] = useState("")
     useFocusEffect(
         useCallback(() => {
             console.log("Edit Profile Mounted")
@@ -50,6 +51,10 @@ const EditProfile = ({navigation, userData}) => {
         .then(() => {
             navigation.goBack()
         })
+        .catch((err) => {
+            console.log(err.response.data)
+            setError(err.response.data.message)
+        })
     }
 
     return(
@@ -62,6 +67,7 @@ const EditProfile = ({navigation, userData}) => {
             value={description} style={styles.input} multiline={true} numberOfLines={4}/>
             <Button onPress={pickImage}> Change Profile Image </Button>
             {image && <Avatar.Image size={200} style={styles.profileImage} source={{ uri: image }}/>}
+            <ErrorMessage error={error}/>
             <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadProfileImage} style={styles.button}> Save </Button>
         </View>
     )
