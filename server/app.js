@@ -160,6 +160,9 @@ app.delete('/delete', async (req, res) => {
         console.log(data)
         res.send(req.body.id + " Deleted")
     }).catch(err => console.log(err))
+    await User.updateMany({}, {$pull: {likedWaifus: req.body.id}}).then(data=> {
+        console.log(data)
+    }).catch(err => console.log(err))
 })
 
 app.put('/update', async (req, res) => {

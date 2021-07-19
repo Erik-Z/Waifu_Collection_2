@@ -8,9 +8,7 @@ import UserProfile from './UserProfile';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
-// followed Users
 // Implement edit waifu
-// Implement liked waifu page.
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
