@@ -9,6 +9,7 @@ import axios from 'axios'
 
 const UserProfile = ({navigation, userData, currentUser, route}) => {
     const [currentUserData, setcurrentUserData] = useState(null)
+    const [followed, setFollowed] = useState(false)
     const [visible, setVisible] = useState(false)
 
     const openMenu = () => setVisible(true)
@@ -26,18 +27,85 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
             })
             .then(res => {
                 if (!res.data){
-                    console.log("Something fucked up. Not suppose to show")
+                    console.log("Not suppose to show")
                 } else {
                     setcurrentUserData(res.data)
+                    // If this is not the profile of the current logged in user, get logged in user data.
+                    if (route.params){
+                        axios.get("http://192.168.1.199:3000/get-user", {
+                            params: {username: userData.username}
+                        })
+                        .then(result => {
+                            if (!result.data){
+                                console.log("Not suppose to show")
+                            } else {
+                                if(result.data.followersList.includes(res.data.username)){
+                                    setFollowed(true)
+                                }
+                            }
+                        })
+                        .catch(err => console.log(err))
+                    }
                 }
             })
             .catch(err => console.log(err))
-
             return () => {
                 console.log("User Profile UnMounted")
             }
         }, [])
     )
+    
+    const followUser = () => {
+        axios({
+            method: "post",
+            data: {
+                user: currentUserData.username
+            },
+            withCredentials: true,
+            url: "http://192.168.1.199:3000/follow-user"
+        })
+        .then(()=> {
+            axios({
+                method: "post",
+                data: {
+                    user: currentUserData.username
+                },
+                withCredentials: true,
+                url: "http://192.168.1.199:3000/inc-followers"
+            })
+            .then(()=>{
+                setFollowed(true)
+                setcurrentUserData(oldState => ({...oldState, followers: oldState.followers + 1}))
+                closeMenu()
+            })
+        })
+    }
+
+    const unfollowUser = () => {
+        axios({
+            method: "post",
+            data: {
+                user: currentUserData.username
+            },
+            withCredentials: true,
+            url: "http://192.168.1.199:3000/unfollow-user"
+        })
+        .then(()=> {
+            axios({
+                method: "post",
+                data: {
+                    user: currentUserData.username
+                },
+                withCredentials: true,
+                url: "http://192.168.1.199:3000/dec-followers"
+            })
+            .then(()=>{
+                setFollowed(false)
+                setcurrentUserData(oldState => ({...oldState, followers: oldState.followers - 1}))
+                closeMenu()
+            })
+        })
+    }
 
     const renderAppbarDrawer = () => {
         if(route.params) {
@@ -60,9 +128,15 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                 }} title="Edit Profile" />
             )
         } else {
-            return (
-                <Menu.Item onPress={closeMenu} title="Follow" />
-            )
+            if(followed){
+                return (
+                    <Menu.Item onPress={unfollowUser} title="UnFollow" />
+                )
+            } else {
+                return (
+                    <Menu.Item onPress={followUser} title="Follow" />
+                )
+            }
         }
     }
 
