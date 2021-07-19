@@ -87,7 +87,12 @@ const CreateWaifuForm = ({navigation, userData}) => {
         })
         .catch((err) => {
             console.log(err)
-            setError("An Image is Required.")
+            if(image){
+                setError("Something went wrong. Please try again.")
+            } else {
+                setError("An Image is Required.")
+            }
+            
         })
     }
 

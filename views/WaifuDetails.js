@@ -179,7 +179,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                                 }}
                             />
                             <Caption>
-                                <Text style={styles.likedText}>{route.params.waifu.likes}  </Text> 
+                                <Text style={styles.likedText}>{route.params.waifu.likes}    </Text> 
                                 <Text>Uploader:  </Text>
                                 <Text style={styles.hyperText}
                                 onPress={
