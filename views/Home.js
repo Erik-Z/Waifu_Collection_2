@@ -4,7 +4,6 @@ import axios from 'axios'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
-import AllWaifuDetailsNavigator from './AllWaifuDetailsNavigator';
 import UserProfile from './UserProfile';
 
 // TODO:
@@ -80,9 +79,6 @@ const Home = ({ navigation }) => {
             {MyProfileTab()}
             <Drawer.Screen name="Create Waifu">
               {props => (<CreateWaifuForm {...props} userData={userData} />)}
-            </Drawer.Screen>
-            <Drawer.Screen name="All Waifus">
-              {() => (<AllWaifuDetailsNavigator userData={userData} />)}
             </Drawer.Screen>
         </Drawer.Navigator>
     )
