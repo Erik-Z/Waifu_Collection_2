@@ -21,7 +21,10 @@ export default function RegisterView({ navigation }) {
           withCredentials: true,
           url: "http://192.168.1.199:3000/register"
         })
-        .then(res => console.log(res.data))
+        .then(res => {
+          console.log(res.data)
+          gotoLogin()
+        })
         .catch(err => {
           setError(err.response.data.message)
         })
