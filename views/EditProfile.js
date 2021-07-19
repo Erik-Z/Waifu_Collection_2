@@ -52,7 +52,7 @@ const EditProfile = ({navigation, userData}) => {
             navigation.goBack()
         })
         .catch((err) => {
-            console.log(err.response.data)
+            console.log(err)
             setError(err.response.data.message)
         })
     }
