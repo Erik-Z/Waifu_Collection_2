@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcryptjs')
 const expressSession = require('express-session')
 const app = express()
+const fetch = require("node-fetch")
+const FormData = require('form-data')
 require('./Schemas/waifu')
 require('./Schemas/user')
 
@@ -148,6 +150,10 @@ app.post('/add-waifu', async (req, res) => {
     }).catch(err => console.log(err))
 })
 
+/*
+*   Deletes the selected Waifu from the database
+*   @params id: The _id of the selected waifu
+*/
 app.delete('/delete', async (req, res) => {
     await Waifu.findByIdAndRemove(req.body.id).then(data=> {
         console.log(data)
@@ -294,6 +300,31 @@ app.post('/dec-followers', async (req, res) => {
     .then(()=>{
         res.send('200 Success')
         console.log(req.body.user + " Followers Decremented")
+    })
+})
+
+app.post('/upload-profile-picture', async (req, res) => {
+    const formData = new FormData();
+    formData.append('image', req.body.image)
+    fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Authorization': 'Client-ID ' + process.env.IMGUR_API
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success){
+            User.updateOne({username: req.body.user}, {profileImage: data.data.link})
+            .then(()=>{
+                res.send('200 Success')
+                console.log(req.body.user + " Profile picture set to " + data.data.link)
+            })
+        } else {
+            console.log(data)
+            res.status(400).send({message: "Server is being stupid. Just try uploading again."})
+        }
     })
 })
 
