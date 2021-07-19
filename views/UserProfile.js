@@ -56,7 +56,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
             return (
                 <Menu.Item onPress={() => {
                     closeMenu()
-                    navigation.navigate("EditProfile")
+                    navigation.navigate("EditProfile", {userInfo: currentUserData})
                 }} title="Edit Profile" />
             )
         } else {
@@ -98,8 +98,10 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                     </Col>
                 </Row>
                 <Row style={{marginTop: 20}}>
-                    <Text style={{fontWeight: "bold"}}>About: </Text>
-                    <Text>{currentUserData ? currentUserData.about : ""}</Text>
+                    <Text>
+                        <Text style={{fontWeight: "bold"}}>About: </Text>
+                        <Text>{"\n"}{currentUserData ? currentUserData.about : ""}</Text>
+                    </Text>
                 </Row>
             </Grid>
         </View>

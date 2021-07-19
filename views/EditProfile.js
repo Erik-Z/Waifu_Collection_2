@@ -7,7 +7,7 @@ import { readAsStringAsync } from 'expo-file-system';
 import Constants from "expo-constants"
 import axios from 'axios'
 import ErrorMessage from '../components/ErrorMessage';
-const EditProfile = ({navigation, userData}) => {
+const EditProfile = ({navigation, userData, route}) => {
     const [dataUri, setDataUri] = useState(null)
     const [image, setImage] = useState(null)
     const [description, setDescription] = useState("")
@@ -15,7 +15,9 @@ const EditProfile = ({navigation, userData}) => {
     useFocusEffect(
         useCallback(() => {
             console.log("Edit Profile Mounted")
-           
+            
+            setDescription(route.params.userInfo.about)
+
             return () => {
                 console.log("Edit Profile UnMounted")
             }
@@ -49,12 +51,35 @@ const EditProfile = ({navigation, userData}) => {
             url: "http://192.168.1.199:3000/upload-profile-picture"
         })
         .then(() => {
-            navigation.goBack()
+            changeUserAbout()
+            .then(() => navigation.goBack())
+            
         })
         .catch((err) => {
             console.log(err)
             setError(err.response.data.message)
         })
+    }
+
+    const changeUserAbout = () =>{
+        return axios({
+            method: "post",
+            data: {
+                about: description,
+                user: userData.username
+            },
+            withCredentials: true,
+            url: "http://192.168.1.199:3000/update-user-about"
+        })
+    }
+
+    const onSaveHandler = () => {
+        if (image){
+            uploadProfileImage()  
+        } else {
+            changeUserAbout()
+            .then(() => navigation.goBack())
+        }
     }
 
     return(
@@ -68,7 +93,7 @@ const EditProfile = ({navigation, userData}) => {
             <Button onPress={pickImage}> Change Profile Image </Button>
             {image && <Avatar.Image size={200} style={styles.profileImage} source={{ uri: image }}/>}
             <ErrorMessage error={error}/>
-            <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadProfileImage} style={styles.button}> Save </Button>
+            <Button icon="apple-keyboard-shift" mode="contained" onPress={onSaveHandler} style={styles.button}> Save </Button>
         </View>
     )
 }
