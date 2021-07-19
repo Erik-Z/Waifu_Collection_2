@@ -6,12 +6,7 @@ import Constants from "expo-constants"
 import axios from 'axios';
 import WaifuList from '../components/WaifuList';
 import CustomModal from '../components/Modal';
-const Filters = {
-    ALL: "All",
-    LIKED: "Liked",
-    FOLLOWED: "Followed",
-    MY_WAIFUS: "MyWaifus"
-}
+import { Filters } from '../constants';
 
 const HomeContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
@@ -103,4 +98,3 @@ const styles = StyleSheet.create({
 })
 
 export default HomeContent
-export { Filters }

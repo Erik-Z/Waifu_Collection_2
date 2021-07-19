@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import WaifuPreview from '../components/WaifuPreview';
-import { Filters } from '../views/HomeContent';
+import { Filters } from '../constants';
 import axios from 'axios';
 const WaifuList = (props) => {
     const [searchQuery, setSearchQuery] = useState('')
