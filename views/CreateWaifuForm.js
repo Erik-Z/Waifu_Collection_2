@@ -8,6 +8,7 @@ import { readAsStringAsync } from 'expo-file-system';
 import axios from 'axios';
 import ErrorMessage from '../components/ErrorMessage';
 import { CommonActions } from '@react-navigation/native';
+import { DevState } from '../constants';
 
 const CreateWaifuForm = ({navigation, userData}) => {
     const [name, setName] = useState("")
@@ -72,7 +73,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
                   owner: userData.username
                 },
                 withCredentials: true,
-                url: "http://192.168.1.199:3000/add-waifu"
+                url: DevState + "add-waifu"
               })
             .then(() => {
                 navigation.dispatch(

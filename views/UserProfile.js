@@ -5,6 +5,7 @@ import { Appbar, TextInput, Avatar, Menu, Provider } from 'react-native-paper';
 import { Col, Row, Grid } from "react-native-paper-grid";
 import Constants from "expo-constants"
 import axios from 'axios'
+import { DevState } from '../constants';
 // TODO: Display user data
 
 const UserProfile = ({navigation, userData, currentUser, route}) => {
@@ -22,7 +23,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
     useFocusEffect(
         useCallback(() => {
             console.log("User Profile Mounted")
-            axios.get("http://192.168.1.199:3000/get-user", {
+            axios.get(DevState + "get-user", {
                 params: {username: currentUser}
             })
             .then(res => {
@@ -32,7 +33,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                     setcurrentUserData(res.data)
                     // If this is not the profile of the current logged in user, get logged in user data.
                     if (route.params){
-                        axios.get("http://192.168.1.199:3000/get-user", {
+                        axios.get(DevState + "get-user", {
                             params: {username: userData.username}
                         })
                         .then(result => {
@@ -62,7 +63,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                 user: currentUserData.username
             },
             withCredentials: true,
-            url: "http://192.168.1.199:3000/follow-user"
+            url: DevState + "follow-user"
         })
         .then(()=> {
             axios({
@@ -71,7 +72,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                     user: currentUserData.username
                 },
                 withCredentials: true,
-                url: "http://192.168.1.199:3000/inc-followers"
+                url: DevState + "inc-followers"
             })
             .then(()=>{
                 setFollowed(true)
@@ -88,7 +89,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                 user: currentUserData.username
             },
             withCredentials: true,
-            url: "http://192.168.1.199:3000/unfollow-user"
+            url: DevState + "unfollow-user"
         })
         .then(()=> {
             axios({
@@ -97,7 +98,7 @@ const UserProfile = ({navigation, userData, currentUser, route}) => {
                     user: currentUserData.username
                 },
                 withCredentials: true,
-                url: "http://192.168.1.199:3000/dec-followers"
+                url: DevState + "dec-followers"
             })
             .then(()=>{
                 setFollowed(false)

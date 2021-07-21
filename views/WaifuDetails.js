@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Dimensions, SafeAreaView, ScrollView} from 'react-native';
-import { Appbar, Card, Title, Paragraph, IconButton, Provider, Menu, Button,
+import { Appbar, Card, Title, Paragraph, IconButton, Provider, Menu,
         Colors, Divider, Subheading, Caption, Snackbar } from 'react-native-paper';
 import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 import Constants from "expo-constants"
 import axios from 'axios';
 import * as MediaLibrary from "expo-media-library"
 import * as FileSystem from "expo-file-system"
+import { DevState } from '../constants';
 // Banner: ca-app-pub-5603368600392159/4958877436
 
 const WaifuDetails = ({navigation, userData, route}) => {
@@ -23,7 +24,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
     useEffect(() => {
         console.log("Waifu Details Mounted")
         setTestDeviceIDAsync("EMULATOR");
-        axios.get("http://192.168.1.199:3000/liked-waifus", {
+        axios.get(DevState + "liked-waifus", {
             params: {username: userData.username}
         })
         .then((likedWaifus)=>{
@@ -62,7 +63,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
               username: userData.username,
               waifu: route.params.waifu._id
             },
-            url: "http://192.168.1.199:3000/like-waifu"
+            url: DevState + "like-waifu"
         })
         .then(() => {
             axios({
@@ -70,7 +71,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 data: {
                   waifu: route.params.waifu._id
                 },
-                url: "http://192.168.1.199:3000/inc-likes"
+                url: DevState + "inc-likes"
             })
             .then(() => {
                 route.params.waifu.likes += 1
@@ -86,7 +87,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
               username: userData.username,
               waifu: route.params.waifu._id
             },
-            url: "http://192.168.1.199:3000/unlike-waifu"
+            url: DevState + "unlike-waifu"
         })
         .then(() => {
             axios({
@@ -94,7 +95,7 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 data: {
                   waifu: route.params.waifu._id
                 },
-                url: "http://192.168.1.199:3000/dec-likes"
+                url: DevState + "dec-likes"
             })
             .then(() => {
                 route.params.waifu.likes -= 1
@@ -109,10 +110,13 @@ const WaifuDetails = ({navigation, userData, route}) => {
             data: {
               id: route.params.waifu._id
             },
-            url: "http://192.168.1.199:3000/delete"
+            url: DevState + "delete"
         })
         .then(() => {
             navigation.goBack()
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
 

@@ -5,4 +5,11 @@ const Filters = {
     MY_WAIFUS: "MyWaifus"
 }
 
-export {Filters}
+const DevStates = {
+    local: "http://192.168.1.199:3000/",
+    production: "https://waifu-collection-server.herokuapp.com/",
+}
+
+const DevState = DevStates.production
+
+export {Filters, DevState, DevStates}

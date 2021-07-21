@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, SafeAreaView, ScrollView} from 'rea
 import Constants from "expo-constants"
 import { Appbar, TextInput, Button } from 'react-native-paper';
 import axios from 'axios';
+import { DevState } from '../constants';
 const EditWaifu = ({navigation, route}) => {
     const [name, setName] = useState("")
     const [series, setSeries] = useState("")
@@ -27,7 +28,7 @@ const EditWaifu = ({navigation, route}) => {
                 gender: gender,
             },
             withCredentials: true,
-            url: "http://192.168.1.199:3000/update"
+            url: DevState + "update"
         })
         .then(() => {
             navigation.goBack()

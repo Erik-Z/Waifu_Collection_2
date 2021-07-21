@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import Constants from 'expo-constants';
 import axios from 'axios'
 import ErrorMessage from '../components/ErrorMessage';
+import { DevState } from '../constants';
 export default function RegisterView({ navigation }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -19,7 +19,7 @@ export default function RegisterView({ navigation }) {
             password: password
           },
           withCredentials: true,
-          url: "http://192.168.1.199:3000/register"
+          url: DevState + "register"
         })
         .then(res => {
           console.log(res.data)

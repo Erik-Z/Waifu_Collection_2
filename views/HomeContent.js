@@ -6,7 +6,7 @@ import Constants from "expo-constants"
 import axios from 'axios';
 import WaifuList from '../components/WaifuList';
 import CustomModal from '../components/Modal';
-import { Filters } from '../constants';
+import { Filters, DevState } from '../constants';
 
 const HomeContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
@@ -16,7 +16,7 @@ const HomeContent = ({navigation, userData}) => {
 
     useFocusEffect(
         useCallback(() => {
-            axios.get("http://192.168.1.199:3000/all-waifus")
+            axios.get(DevState + "all-waifus")
             .then(res => {
                 setWaifus(res.data)
             })

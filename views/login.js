@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import axios from 'axios'
 import ErrorMessage from '../components/ErrorMessage';
+import { DevState } from '../constants';
 export default function LoginView({ navigation }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -14,7 +15,7 @@ export default function LoginView({ navigation }) {
       axios({
         method: "get",
         withCredentials: true,
-        url: "http://192.168.1.199:3000/user"
+        url: DevState+"user"
       })
       .then(res => {
         if (res.data){
@@ -37,7 +38,7 @@ export default function LoginView({ navigation }) {
           password: password
         },
         withCredentials: true,
-        url: "http://192.168.1.199:3000/login"
+        url: DevState + "login"
       })
       .then(res => {
         navigation.navigate('Home')
@@ -47,6 +48,7 @@ export default function LoginView({ navigation }) {
         })
       })
       .catch(err => {
+        console.log(err)
         setError(err.response.data.message)
       })
     }

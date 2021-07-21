@@ -7,6 +7,7 @@ import { readAsStringAsync } from 'expo-file-system';
 import Constants from "expo-constants"
 import axios from 'axios'
 import ErrorMessage from '../components/ErrorMessage';
+import { DevState } from '../constants';
 const EditProfile = ({navigation, userData, route}) => {
     const [dataUri, setDataUri] = useState(null)
     const [image, setImage] = useState(null)
@@ -48,7 +49,7 @@ const EditProfile = ({navigation, userData, route}) => {
               user: userData.username
             },
             withCredentials: true,
-            url: "http://192.168.1.199:3000/upload-profile-picture"
+            url: DevState + "upload-profile-picture"
         })
         .then(() => {
             changeUserAbout()
@@ -69,7 +70,7 @@ const EditProfile = ({navigation, userData, route}) => {
                 user: userData.username
             },
             withCredentials: true,
-            url: "http://192.168.1.199:3000/update-user-about"
+            url: DevState + "update-user-about"
         })
     }
 

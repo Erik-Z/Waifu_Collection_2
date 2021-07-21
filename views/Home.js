@@ -5,6 +5,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import CreateWaifuForm from './CreateWaifuForm';
 import HomeDetailsNavigator from './HomeDetailsNavigator';
 import UserProfile from './UserProfile';
+import { DevState } from '../constants';
 
 // TODO:
 // User Profiles: Show waifus uploaded by user
@@ -17,7 +18,7 @@ const Home = ({ navigation }) => {
         axios({
           method: "get",
           withCredentials: true,
-          url: "http://192.168.1.199:3000/user"
+          url: DevState + "user"
         })
         .then(res => {
           if (!res.data){
@@ -37,7 +38,7 @@ const Home = ({ navigation }) => {
         axios({
             method: "get",
             withCredentials: true,
-            url: "http://192.168.1.199:3000/logout"
+            url: DevState + "logout"
         })
         .then(() => {
             navigation.navigate('Login')
