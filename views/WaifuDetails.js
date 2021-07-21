@@ -116,10 +116,14 @@ const WaifuDetails = ({navigation, userData, route}) => {
         })
     }
 
+    // No, I don't know why the fuck I need to add keys. Fucking React.
     const renderDeleteWaifu = () => {
         if (route.params.waifu.owner == userData.username){
             return [
-                <Menu.Item onPress={() => {navigation.navigate('EditWaifu', {waifu: route.params.waifu})}}key={(0)} title="Edit Waifu" />,
+                <Menu.Item onPress={() => {
+                    navigation.navigate('EditWaifu', {waifu: route.params.waifu})
+                    closeMenu()
+                }} key={(0)} title="Edit Waifu" />,
                 <Menu.Item onPress={() => {deleteWaifu()}} key={1} title="Delete Waifu" />
             ]
         }
@@ -133,8 +137,8 @@ const WaifuDetails = ({navigation, userData, route}) => {
                 onDismiss={closeMenu}
                 anchor={{ x: Dimensions.get('window').width, y: 70 }}>
                 <Menu.Item onPress={downloadImage} title="Download Image" />
-                <Menu.Item onPress={() => {}} title="Report" />
                 {renderDeleteWaifu()}
+                <Menu.Item onPress={() => {}} title="Report" />
             </Menu>
             <Appbar style={styles.appbar}>
                 <Appbar.Action icon="keyboard-backspace" onPress={() => navigation.goBack()} />

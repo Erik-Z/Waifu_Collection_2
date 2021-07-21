@@ -164,6 +164,10 @@ app.delete('/delete', async (req, res) => {
     }).catch(err => console.log(err))
 })
 
+/*
+*   Updates contents of specified waifu.
+*   @params id: The ID of specified waifu.
+*/
 app.put('/update', async (req, res) => {
     await Waifu.findByIdAndUpdate(req.body.id, req.body).then(data => {
         console.log(data)
