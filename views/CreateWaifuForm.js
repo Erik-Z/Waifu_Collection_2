@@ -51,14 +51,6 @@ const CreateWaifuForm = ({navigation, userData}) => {
         Uploads Image to Imgur and Adds Waifu to MongoDB
     */
     const uploadWaifu = async () => {
-        // const data = new FormData();
-        // data.append("image", dataUri);
-        // const config = {
-        //     headers: {
-        //       Authorization: Constants.manifest.extra.imgur_AUTH,
-        //     },
-        // };    
-        // axios.post("https://api.imgur.com/3/image", data, config)
         axios({
             method: "post",
             data: {
