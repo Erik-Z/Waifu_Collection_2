@@ -10,6 +10,6 @@ const DevStates = {
     production: "https://waifu-collection-server.herokuapp.com/",
 }
 
-const DevState = DevStates.production
+const DevState = DevStates.local
 
 export {Filters, DevState, DevStates}

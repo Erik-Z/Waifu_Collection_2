@@ -133,6 +133,26 @@ app.get('/logout', function(req, res){
 
 // Waifu API Routes
 
+app.post('/upload-image', async (req, res) =>{
+    const formData = new FormData();
+    formData.append('image', req.body.image)
+    fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Authorization': 'Client-ID ' + process.env.IMGUR_API
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success){
+            res.send(data.data.link)
+        } else {
+            res.status(400).send({message: "Something went wrong. Just try uploading again."})
+        }
+    })
+})
+
 /*
 *   Adds a new Waifu Document to the database
 *   @param name: Name of the waifu.

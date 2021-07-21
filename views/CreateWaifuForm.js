@@ -51,16 +51,24 @@ const CreateWaifuForm = ({navigation, userData}) => {
         Uploads Image to Imgur and Adds Waifu to MongoDB
     */
     const uploadWaifu = async () => {
-        const data = new FormData();
-        data.append("image", dataUri);
-        const config = {
-            headers: {
-              Authorization: Constants.manifest.extra.imgur_AUTH,
+        // const data = new FormData();
+        // data.append("image", dataUri);
+        // const config = {
+        //     headers: {
+        //       Authorization: Constants.manifest.extra.imgur_AUTH,
+        //     },
+        // };    
+        // axios.post("https://api.imgur.com/3/image", data, config)
+        axios({
+            method: "post",
+            data: {
+              image: dataUri,
             },
-        };    
-        axios.post("https://api.imgur.com/3/image", data, config)
+            withCredentials: true,
+            url: DevState + "upload-image"
+        })
         .then(res => {
-            console.log(res.data.data)
+            console.log(res.data)
             axios({
                 method: "post",
                 data: {
@@ -68,7 +76,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
                   series: series,
                   description: description,
                   gender: gender,
-                  image: res.data.data.link,
+                  image: res.data,
                   likes: 0,
                   owner: userData.username
                 },
@@ -105,11 +113,11 @@ const CreateWaifuForm = ({navigation, userData}) => {
             </Appbar>
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView>
-                    <TextInput placeholder='Name' onChangeText={setName} value={name} style={styles.input}/>
-                    <TextInput placeholder='Series' onChangeText={setSeries} value={series} style={styles.input}/>
+                    <TextInput placeholder='Name' onChangeText={setName} value={name} style={styles.input} maxLength={50}/>
+                    <TextInput placeholder='Series' onChangeText={setSeries} value={series} style={styles.input} maxLength={50}/>
                     <TextInput placeholder='Description' onChangeText={setDescription} value={description} 
                     multiline={true} numberOfLines={4} style={styles.input}/>  
-                    <TextInput placeholder='Gender' onChangeText={setGender} value={gender} style={styles.input}/>
+                    <TextInput placeholder='Gender' onChangeText={setGender} value={gender} maxLength={20} style={styles.input}/>
                     <Button onPress={pickImage}> Choose Image </Button>
                     {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width, height: 400 }} />}
 
