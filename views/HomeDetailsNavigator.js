@@ -5,6 +5,7 @@ import EditProfile from './EditProfile';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserProfile from './UserProfile';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import EditWaifu from './EditWaifu';
 
 const Stack = createStackNavigator()
 
@@ -23,6 +24,9 @@ const HomeDetailsNavigator = ({userData}) => {
                 </Stack.Screen>
                 <Stack.Screen options={{headerShown: false}} name="EditProfile">
                     {props => (<EditProfile {...props} userData={userData}/>)}
+                </Stack.Screen>
+                <Stack.Screen options={{headerShown: false}} name="EditWaifu">
+                    {props => (<EditWaifu {...props} userData={userData}/>)}
                 </Stack.Screen>
             </Stack.Navigator>
         )

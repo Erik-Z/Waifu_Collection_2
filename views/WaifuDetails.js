@@ -118,9 +118,10 @@ const WaifuDetails = ({navigation, userData, route}) => {
 
     const renderDeleteWaifu = () => {
         if (route.params.waifu.owner == userData.username){
-            return (
-                <Menu.Item onPress={() => {deleteWaifu()}} title="Delete Waifu" />
-            )
+            return [
+                <Menu.Item onPress={() => {navigation.navigate('EditWaifu', {waifu: route.params.waifu})}}key={(0)} title="Edit Waifu" />,
+                <Menu.Item onPress={() => {deleteWaifu()}} key={1} title="Delete Waifu" />
+            ]
         }
     } 
 
