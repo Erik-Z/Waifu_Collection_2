@@ -10,6 +10,7 @@ import { DevState } from '../constants';
 // TODO:
 // User Profiles: Show waifus uploaded by user
 // Implement edit waifu
+// Implement nsfw
 
 const Home = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
