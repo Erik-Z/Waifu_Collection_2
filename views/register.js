@@ -23,7 +23,18 @@ export default function RegisterView({ navigation }) {
         })
         .then(res => {
           console.log(res.data)
-          gotoLogin()
+          axios({
+            method: "post",
+            data: {
+              username: username,
+              password: password
+            },
+            withCredentials: true,
+            url: DevState + "login"
+          }).then(() => {
+            gotoHome()
+          })
+          
         })
         .catch(err => {
           setError(err.response.data.message)
@@ -39,6 +50,14 @@ export default function RegisterView({ navigation }) {
         index: 0,
         routes: [{name: 'Login'}],
       });
+    }
+
+    const gotoHome = () => {
+      navigation.navigate('Home')
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      })
     }
 
     return (
