@@ -19,3 +19,4 @@ CD into the server folder.
 
 Run 'npm run start'
 
+Download the app here: https://play.google.com/store/apps/details?id=com.erikzdev.waifu_collection_2
