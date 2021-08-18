@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Appbar, Provider, Menu } from 'react-native-paper';
+import { Appbar, Provider, Menu, FAB } from 'react-native-paper';
 import Constants from "expo-constants"
 import axios from 'axios';
 import WaifuList from '../components/WaifuList';
@@ -10,7 +10,7 @@ import { Filters, DevState } from '../constants';
 
 const HomeContent = ({navigation, userData}) => {
     const [waifus, setWaifus] = useState([])
-    const [filter, setFilter] = useState(Filters.MY_WAIFUS)
+    const [filter, setFilter] = useState(Filters.ALL)
     const [modalVisible, setModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false)
 
@@ -65,6 +65,12 @@ const HomeContent = ({navigation, userData}) => {
                     <Appbar.Action icon="filter-variant" onPress={openMenu} />
                 </Appbar>
                 <WaifuList waifus={waifus} navigation={navigation} filter={filter} userData={userData}/>
+                <FAB
+                    style={styles.createWaifuFAB}
+                    medium
+                    icon="plus"
+                    onPress={() => {navigation.navigate('Create Waifu')}}
+                />
                 <CustomModal 
                 texts={[
                     "Welcome to Waifu Collection",
@@ -97,7 +103,13 @@ const styles = StyleSheet.create({
     selectedFilterText: {
         fontWeight: "bold",
         fontSize: 18
-    }
+    },
+    createWaifuFAB: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+    },
 })
 
 export default HomeContent
