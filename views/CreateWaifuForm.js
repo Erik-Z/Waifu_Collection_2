@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard,
     Image, Dimensions, SafeAreaView, ScrollView} from 'react-native';
-import { Appbar, TextInput, Button } from 'react-native-paper';
+import { Appbar, TextInput, Button, ActivityIndicator } from 'react-native-paper';
 import Constants from "expo-constants"
 import * as ImagePicker from 'expo-image-picker';
 import { readAsStringAsync } from 'expo-file-system';
@@ -18,6 +18,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
     const [dataUri, setDataUri] = useState(null)
     const [image, setImage] = useState(null)
     const [error, setError] = useState("")
+    const [uploading, setUploading] = useState(false)
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'web') {
@@ -51,6 +52,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
         Uploads Image to Imgur and Adds Waifu to MongoDB
     */
     const uploadWaifu = async () => {
+        setUploading(true)
         axios({
             method: "post",
             data: {
@@ -76,6 +78,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
                 url: DevState + "add-waifu"
               })
             .then(() => {
+                setUploading(false)
                 navigation.dispatch(
                     CommonActions.reset({
                         index: 0,
@@ -88,6 +91,7 @@ const CreateWaifuForm = ({navigation, userData}) => {
         })
         .catch((err) => {
             console.log(err)
+            setUploading(false)
             if(image){
                 setError("Something went wrong. Please try again.")
             } else {
@@ -95,6 +99,14 @@ const CreateWaifuForm = ({navigation, userData}) => {
             }
             
         })
+    }
+
+    renderUploadButton = () => {
+        if (uploading) {
+            return <ActivityIndicator style={styles.button} animating={true}/>
+        } else {
+            return <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadWaifu} style={styles.button}> Upload </Button>
+        }
     }
 
     return (
@@ -114,7 +126,8 @@ const CreateWaifuForm = ({navigation, userData}) => {
                     {image && <Image source={{ uri: image }} style={{ width: Dimensions.get('window').width, height: 400 }} />}
 
                     <ErrorMessage error={error}/>
-                    <Button icon="apple-keyboard-shift" mode="contained" onPress={uploadWaifu} style={styles.button}> Upload </Button>
+                    
+                    {renderUploadButton()}
                 </ScrollView>
             </SafeAreaView>
         </View>
